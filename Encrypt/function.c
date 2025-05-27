@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 #include "function.h"
 #include "table.h"
@@ -7,22 +8,19 @@
 /* 開檔 
     name : 檔案名稱 
 	data : 讀取的資料 
+	num : 讀取的是第幾筆資料  
 	回傳 : data  
 */ 
 void openFile(char *name, char *data, int num) {
 	
-	FILE *rptr = fopen(name, "r");
-	char tmp = '\0';
-	int i;
+	FILE *rptr = fopen(name, "rb");  // 以位元組( Byte )為單位處理檔案 
 	
 	if(rptr == NULL) {
 		printf("Open file failed.\n");
+		exit(EXIT_FAILURE);  // 結束程式  
 	} else {
-		fseek(rptr, 18 * num, SEEK_CUR);  // 下一行資料的開頭是 18 的倍數，因為一行資料有 17 個字元 ( 16 個字母 + 1 個換行 )  
-		for(i = 0; i < 16; i++) { 
-			fscanf(rptr, "%c", &tmp);
-			data[i] = tmp;
-		}
+		fseek(rptr, 18 * num, SEEK_CUR);  // 下一行資料的開頭是 18 的倍數，因為一行資料有 17 個字元( 18 Bytes = 16 個字母( 16 Bytes ) + 1 個換行( 2 Bytes, \n = \r\n ) ) 
+		fgets(data, 17, rptr);  // 因為會自動補上 '\0'，所以讀取的字元長度要放 17 ( 16 個字元 + 1 個 '\0' )
 	}
 	
 //	printf("openFile = %s\n", data);
