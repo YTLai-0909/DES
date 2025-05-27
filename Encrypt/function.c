@@ -473,24 +473,17 @@ void BinaryToHexadecimal(int len, _Bool *input, char* output) {
 /* 寫檔 
 	name : 檔案名稱 
 	data : 寫入的內容  
+	num : 寫入的是第幾筆資料  
 */
 void writeFile(char *name, char *data, int num) {
 	
 	FILE *wptr = fopen(name, "a");
-	int tmp = 0, count = 0;
 	
 	if(wptr == NULL) {
 		printf("Open file failed.\n");
+		exit(EXIT_FAILURE);  // 結束程式  
 	} else {
-		tmp = num + 1;
-		count = 0;
-		while(tmp != 0) {  // 計算要 print 的數字是幾位數  
-			tmp = tmp / 10;
-			count++;
-		}
-		count = count + 2;  // print 時，「.」和「空格」佔得位置   
-		fseek(wptr, 18 * num + count , SEEK_CUR);  // 下一行資料的開頭是 18 的倍數加上格式調整，因為一行資料有 17 個字元 ( 16 個字母 + 1 個換行 )  
-		fprintf(wptr, "%d. %s\n", num + 1, data);
+		fprintf(wptr, "%d. %s\n", num + 1, data);  // +1 : 因為陣列的第一個位置 index = 0  
 	}
 	fclose(wptr);
 }
