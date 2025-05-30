@@ -35,8 +35,13 @@ void openFile(char *name, char *data, int num) {
 */
 void HexadecimalToBinary(char *input, _Bool *output) {
 	
+	/*
+		len : 16 進位的字串長度 
+		value : 16 進位轉成 10 進位的值  
+	*/
+	
 	int len = 0, value = 0;
-	int i;
+	int i, j;
 	
 	len = strlen(input);
 	for(i = 0; i < len; i++) {
@@ -47,13 +52,10 @@ void HexadecimalToBinary(char *input, _Bool *output) {
 			value = input[i] - 55;
 		}
 		// 10 進位 -> 2 進位  
-		output[4 * i] = value / 8;
-		value = value % 8;
-		output[4 * i + 1] = value / 4;
-		value = value % 4;
-		output[4 * i + 2] = value / 2;
-		value = value % 2;
-		output[4 * i + 3] = value;
+		for(j = 3; j >= 0; j--) {
+			output[4 * i + j] = value % 2;
+			value /= 2;
+		}
 	}
 	
 //	// Test
