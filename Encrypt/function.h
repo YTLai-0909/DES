@@ -2,7 +2,7 @@
 void openFile(char *name, char *data, int num);
 void HexadecimalToBinary(char *input, _Bool *output);
 void keyGenerator(_Bool *keyWithParities, _Bool roundKeys[16][48], int *shiftTable);
-void permute(int startBitNum, int endBitNum, _Bool *startBlock, _Bool *endBlock, int *table);
+void permute(int inputBitNum, int outputBitNum, _Bool *inputBlock, _Bool *outputBlock, int *table);
 void split(int startBitNum, int endBitNum, _Bool *inBlock, _Bool *leftBlock, _Bool *rightBlock, _Bool **splitBlock);
 void shiftLeft(_Bool *block, int numOfShifts);
 void combine(int startBitNum, int endBitNum, _Bool *leftBlock, _Bool *rightBlock, _Bool *outBlock);
