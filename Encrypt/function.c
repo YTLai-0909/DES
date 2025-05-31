@@ -108,28 +108,28 @@ void keyGenerator(_Bool *keyWithParities, _Bool roundKeys[16][48], int *shiftTab
 }
 
 /* 排列 
-	startBitNum : 排列前的位元數 
-	endBitNum : 排列後的位元數 
-	startBlock : 排列前的區塊 
-	endBlock : 排列後的區塊 
+	inputBitNum : 排列前的位元數 
+	outputBitNum : 排列後的位元數 
+	inputBlock : 排列前的區塊 
+	outputBlock : 排列後的區塊 
 	table : 排列表格  
-	回傳 : endBlock  
+	回傳 : outputBlock  
 */ 
-void permute(int startBitNum, int endBitNum, _Bool *startBlock, _Bool *endBlock, int *table) {
+void permute(int inputBitNum, int outputBitNum, _Bool *inputBlock, _Bool *outputBlock, int *table) {
 	
 	int i;
 	
-	for(i = 0; i < endBitNum; i++) {
-		endBlock[i] = startBlock[table[i] - 1];  // table[i] - 1 : 因為陣列從 0 開始，但 table 從 1 開始記錄  
+	for(i = 0; i < outputBitNum; i++) {
+		outputBlock[i] = inputBlock[table[i] - 1];  // table[i] - 1 : 因為陣列從 0 開始，但 table 從 1 開始記錄  
 	}
 	
 //	// Test
 //	printf("permute:\n");
-//	for(i = 0; i < endBitNum; i++) {
+//	for(i = 0; i < outputBitNum; i++) {
 //		if(i != 0 && i % 4 == 0) {
 //			printf(" ");
 //		}
-//		printf("%d", endBlock[i]);
+//		printf("%d", outputBlock[i]);
 //	}
 //	printf("\n");
 	
