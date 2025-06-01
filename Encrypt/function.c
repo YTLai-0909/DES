@@ -80,19 +80,15 @@ void keyGenerator(_Bool *keyWithParities, _Bool roundKeys[16][48], int *shiftTab
 	
 	_Bool cipherKey[56] = {0};
 	_Bool leftKey[28] = {0}, rightKey[28] = {0};
-	_Bool *splitKey[2];
 	_Bool preRoundKey[56] = {0};
 	int i;
 	
-	splitKey[0] = leftKey;
-	splitKey[1] = rightKey;
-
 	
 	// 同位元移除表  
 	permute(64, 56, keyWithParities, cipherKey, ParityDropTable);
 	
 	// 分裂 
-	split(56, 28, cipherKey, leftKey, rightKey, splitKey);
+	split(56, 28, cipherKey, leftKey, rightKey);
 	
 	// 產生回合金鑰，16 個  
 	for(i = 0; i < 16; i++) {
@@ -136,40 +132,41 @@ void permute(int inputBitNum, int outputBitNum, _Bool *inputBlock, _Bool *output
 }
 
 /* 分裂 
-	startBitNum : 分裂前的位元數 
-	endBitNum : 分裂後的位元數 
-	inBlock : 分裂前的區塊 
+	inputBitNum : 分裂前的位元數 
+	outputBitNum : 分裂後的位元數 
+	inputBlock : 分裂前的區塊 
 	leftBlock : 左邊區塊 
 	rightBlock : 右邊區塊 
-	splitBlock : 用來存左邊區塊和右邊區塊的指標陣列 ( 函式一次回傳兩個數值 ) 
-	回傳 : splitBlock  
+	回傳 : leftBlock, rightBlock 
 */ 
-void split(int startBitNum, int endBitNum, _Bool *inBlock, _Bool *leftBlock, _Bool *rightBlock, _Bool **splitBlock) {
+void split(int inputBitNum, int outputBitNum, _Bool *inputBlock, _Bool *leftBlock, _Bool *rightBlock) {
 	
 	int i;
 	
-	for(i = 0; i < startBitNum; i++) {
-		if(i < startBitNum / 2) {  // 左邊區塊  
-			leftBlock[i] = inBlock[i];	
+	for(i = 0; i < inputBitNum; i++) {
+		if(i < inputBitNum / 2) {  // 左邊區塊  
+			leftBlock[i] = inputBlock[i];	
 		} else {  // 右邊區塊  
-			rightBlock[i - endBitNum] = inBlock[i];  // 分裂後，inBlock 的第 32 位元 ( endBitNum = 32 ) 變成 rightBlock 的第 0 位元  
+			rightBlock[i - outputBitNum] = inputBlock[i];  // 分裂後，inputBlock 的中間位元( = outputBitNum )變成 rightBlock 的第 0 位元  
 		}
 	}
-	splitBlock[0] = leftBlock;
-	splitBlock[1] = rightBlock; 
 	
 //	// Test 
-//	int j;
 //	printf("split:\n");
-//	for(i = 0; i < 2; i++) {
-//		for(j = 0; j < endBitNum; j++) {
-//			if(j != 0 && j % 4 == 0) {
-//				printf(" ");
-//			}
-//			printf("%d", splitBlock[i][j]);
+//	for(i = 0; i < outputBitNum; i++) {
+//		if(i != 0 && i % 4 == 0) {
+//			printf(" ");
 //		}
-//		printf("\n");		
+//		printf("%d", leftBlock[i]);
 //	}
+//	printf("\n");
+//	for(i = 0; i < outputBitNum; i++) {
+//		if(i != 0 && i % 4 == 0) {
+//			printf(" ");
+//		}
+//		printf("%d", rightBlock[i]);
+//	}
+//	printf("\n");
 	
 }
 
@@ -256,7 +253,7 @@ void Encrypt(_Bool *plainBlock, _Bool roundKeys[16][48], _Bool *cipherBlock) {
 	permute(64, 64, plainBlock, inBlock, InitialPermutationTable);
 	
 	// 分裂 
-	split(64, 32, inBlock, leftBlock, rightBlock, splitBlock);
+	split(64, 32, inBlock, leftBlock, rightBlock);
 
 	// DES 加密法，16 個回合  
 	for(i = 0; i < 16; i++){
