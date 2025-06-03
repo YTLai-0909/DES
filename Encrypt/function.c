@@ -177,15 +177,19 @@ void split(int inputBitNum, int outputBitNum, _Bool *inputBlock, _Bool *leftBloc
 */
 void shiftLeft(_Bool *block, int numOfShifts) {
 	
-	_Bool tmp;
+	/*
+		tmp : 暫存陣列第 0 個位置的值，等做完左位移後，再放到陣列的尾端  
+	*/
+	
+	_Bool tmp = 0;
 	int i, j;
 	
 	for(i = 0; i < numOfShifts; i++) {
-		tmp = block[0];
+		tmp = block[0];  // 存陣列第 0 個位置的值  
 		for(j = 1; j < 28; j++) {
-			block[j - 1] = block[j];
+			block[j - 1] = block[j];  // 左位移  
 		}
-		block[27] = tmp;
+		block[27] = tmp;  // 將第 0 個位置的值放到陣列的尾端  
 	}
 	
 //	// Test 
