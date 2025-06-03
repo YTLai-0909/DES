@@ -5,7 +5,7 @@ void keyGenerator(_Bool *keyWithParities, _Bool roundKeys[16][48], int *shiftTab
 void permute(int inputBitNum, int outputBitNum, _Bool *inputBlock, _Bool *outputBlock, int *table);
 void split(int inputBitNum, int outputBitNum, _Bool *inputBlock, _Bool *leftBlock, _Bool *rightBlock);
 void shiftLeft(_Bool *block, int numOfShifts);
-void combine(int startBitNum, int endBitNum, _Bool *leftBlock, _Bool *rightBlock, _Bool *outBlock);
+void combine(int inputBitNum, int outputBitNum, _Bool *leftBlock, _Bool *rightBlock, _Bool *outputBlock);
 void Encrypt(_Bool *plainBlock, _Bool roundKeys[16][48], _Bool *cipherBlock);
 void mixer(_Bool *leftBlock, _Bool *rightBlock, _Bool *roundKey);
 void copy(int len, _Bool *input, _Bool *output);

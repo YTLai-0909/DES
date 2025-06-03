@@ -205,32 +205,32 @@ void shiftLeft(_Bool *block, int numOfShifts) {
 }
 
 /* 結合  
-	startBitNum : 結合前的位元數 
-	endBitNum : 結合後的位元數 
+	inputBitNum : 結合前的位元數 
+	outputBitNum : 結合後的位元數 
 	leftBlock : 左邊區塊 
 	rightBlock : 右邊區塊 
-	outBlock : 結合的區塊 
-	回傳 : outBlock  
+	outputBlock : 結合的區塊 
+	回傳 : outputBlock   
 */
-void combine(int startBitNum, int endBitNum, _Bool *leftBlock, _Bool *rightBlock, _Bool *outBlock) {
+void combine(int inputBitNum, int outputBitNum, _Bool *leftBlock, _Bool *rightBlock, _Bool *outputBlock) {
 	
 	int i;
 	
-	for(i = 0; i < endBitNum; i++) {
-		if(i < endBitNum / 2) {  // 左邊區塊  
-			outBlock[i] = leftBlock[i];
+	for(i = 0; i < outputBitNum; i++) {
+		if(i < outputBitNum / 2) {  // 左邊區塊  
+			outputBlock[i] = leftBlock[i];
 		} else {  // 右邊區塊  
-			outBlock[i] = rightBlock[i - startBitNum];  // 結合後，outBlock 的第 28 位元 ( startBitNum = 28 ) 放得是 rightBlock 的第 0 位元  
+			outputBlock[i] = rightBlock[i - inputBitNum];  // 結合後，outputBlock 的中間位元( = inputBitNum )放得是 rightBlock 的第 0 位元  
 		}
 	}
 	
 //	// Test 
 //	printf("combine:\n");
-//	for(i = 0; i < endBitNum; i++) {
+//	for(i = 0; i < outputBitNum; i++) {
 //		if(i != 0 && i % 4 == 0) {
 //			printf(" ");
 //		}
-//		printf("%d", outBlock[i]);
+//		printf("%d", outputBlock[i]);
 //	}
 //	printf("\n");
 
