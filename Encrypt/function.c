@@ -71,36 +71,40 @@ void HexadecimalToBinary(char *input, _Bool *output) {
 }
 
 /* 回合金鑰產生器  
-	keyWithParities : 初始金鑰 
+	key : 初始金鑰 
 	roundKeys : 產生的回合金鑰，16 個 
-	shiftTable : 每回合位移數量表 
 	回傳 : roundKeys  
 */
-void keyGenerator(_Bool *keyWithParities, _Bool roundKeys[16][48], int *shiftTable) {
+void keyGenerator(_Bool *key, _Bool roundKeys[16][48]) {
 	
-	_Bool cipherKey[56] = {0};
+	/*
+		tmpKey : 用來暫存金鑰做完同位元移除後的結果  
+		leftKey : 分裂後的左邊區塊  
+		rightKey : 分裂後的右邊區塊  
+		tmpRoundKey : 用來暫存左右區塊結合後還沒做金鑰壓縮的結果  
+	*/
+	
+	_Bool tmpKey[56] = {0};
 	_Bool leftKey[28] = {0}, rightKey[28] = {0};
-	_Bool preRoundKey[56] = {0};
+	_Bool tmpRoundKey[56] = {0};
 	int i;
 	
-	
 	// 同位元移除表  
-	permute(64, 56, keyWithParities, cipherKey, ParityDropTable);
+	permute(64, 56, key, tmpKey, ParityDropTable);
 	
 	// 分裂 
-	split(56, 28, cipherKey, leftKey, rightKey);
+	split(56, 28, tmpKey, leftKey, rightKey);
 	
 	// 產生回合金鑰，16 個  
 	for(i = 0; i < 16; i++) {
 		// 左位移  
-		shiftLeft(leftKey, shiftTable[i]);
-		shiftLeft(rightKey, shiftTable[i]);
+		shiftLeft(leftKey, ShiftTable[i]);
+		shiftLeft(rightKey, ShiftTable[i]);
 		// 結合  
-		combine(28, 56, leftKey, rightKey, preRoundKey);
+		combine(28, 56, leftKey, rightKey, tmpRoundKey);
 		// 金鑰壓縮表  
-		permute(56, 48, preRoundKey, roundKeys[i], KeyCompressionTable);		
+		permute(56, 48, tmpRoundKey, roundKeys[i], KeyCompressionTable);		
 	}
-	
 }
 
 /* 排列 

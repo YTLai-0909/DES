@@ -30,7 +30,7 @@ int main(void) {
 		HexadecimalToBinary(inputKey, key);
 		
 		// 產生回合金鑰  
-		keyGenerator(key, roundKeys, ShiftTable);
+		keyGenerator(key, roundKeys);
 		
 		// 印出回合金鑰  
 		printf("RoundKey\n");
