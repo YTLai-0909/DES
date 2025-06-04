@@ -1,7 +1,7 @@
 // 函式的原型宣告  
 void openFile(char *name, char *data, int num);
 void HexadecimalToBinary(char *input, _Bool *output);
-void keyGenerator(_Bool *keyWithParities, _Bool roundKeys[16][48], int *shiftTable);
+void keyGenerator(_Bool *key, _Bool roundKeys[16][48]);
 void permute(int inputBitNum, int outputBitNum, _Bool *inputBlock, _Bool *outputBlock, int *table);
 void split(int inputBitNum, int outputBitNum, _Bool *inputBlock, _Bool *leftBlock, _Bool *rightBlock);
 void shiftLeft(_Bool *block, int numOfShifts);
