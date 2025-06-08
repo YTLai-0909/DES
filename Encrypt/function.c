@@ -325,22 +325,34 @@ void copy(int len, _Bool *input, _Bool *output) {
 }
 
 /* DES 函數 
-	inBlock : 輸入的區塊 
+	inputBlock : 輸入的區塊 
 	roundKey : 回合金鑰 
-	outBlock : 輸出的區塊  
-	回傳 : outBlock  
+	outputBlock : 輸出的區塊 
+	回傳 : outputBlock 
 */ 
-void function(_Bool *inBlock, _Bool *roundKey, _Bool *outBlock) {
+void function(_Bool *inputBlock, _Bool *roundKey, _Bool *outputBlock) {
 
-	_Bool T1[48] = {0};
-	_Bool T2[48] = {0};
-	_Bool T3[32] = {0};
+	/*
+		tmp1 : 暫存做完擴展的 P-box 的結果  
+		tmp2 : 暫存做完 XOR 運算的結果  
+		tmp3 : 暫存做完 S-box 的結果  
+	*/
 	
-	permute(32, 48, inBlock, T1, ExpansionPermutationTable);
-	exclusiveOr(48, T1, roundKey, T2);
-	substitue(T2, T3);
-	permute(32, 32, T3, outBlock, StraightPermutationTable);
-
+	_Bool tmp1[48] = {0};
+	_Bool tmp2[48] = {0};
+	_Bool tmp3[32] = {0};
+	
+	// 擴展的 P-box  
+	permute(32, 48, inputBlock, tmp1, ExpansionPermutationTable);
+	
+	// XOR 運算  
+	exclusiveOr(48, tmp1, roundKey, tmp2);
+	
+	// S-box  
+	substitue(tmp2, tmp3);
+	
+	// 連續的 P-box( 標準排列 ) 
+	permute(32, 32, tmp3, outputBlock, StraightPermutationTable);
 }
 
 /* XOR 運算 
