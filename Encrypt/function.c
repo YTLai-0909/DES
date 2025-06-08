@@ -338,7 +338,7 @@ void function(_Bool *inBlock, _Bool *roundKey, _Bool *outBlock) {
 	
 	permute(32, 48, inBlock, T1, ExpansionPermutationTable);
 	exclusiveOr(48, T1, roundKey, T2);
-	substitue(T2, T3, SubstituteTable);
+	substitue(T2, T3);
 	permute(32, 32, T3, outBlock, StraightPermutationTable);
 
 }
@@ -371,28 +371,30 @@ void exclusiveOr(int len, _Bool *inputA, _Bool *inputB, _Bool *output) {
 }
 
 /* S-box 
-	inBlock : 輸入的區塊 
-	outBlock : 輸出的區塊 
-	SubstitutionTables[8][4][16] : S-box 
-	回傳 : outBlock  
+	inputBlock : 輸入的區塊 
+	outputBlock : 輸出的區塊 
+	回傳 : outputBlock  
 */
-void substitue(_Bool *inBlock, _Bool *outBlock, int SubstituteTable[8][4][16]) {
+void substitue(_Bool *inputBlock, _Bool *outputBlock) {
 	
-	int i;
+	/*
+		row : SubstituteTable 的列( 由每個區塊的第一和第六位元組成 ) 
+		col : SubstituteTable 的行( 由每個區塊的第二到第五位元組成 ) 
+		value : 根據表格的編號、列、行，取得 SubstituteTable 對應的值  
+	*/
+	
 	int row = 0, col = 0;
 	int value = 0;
+	int i, j;
 	
 	for(i = 0; i < 8; i++) {
-		row = 2 * inBlock[i * 6] + inBlock[i * 6 + 5];
-		col = 8 * inBlock[i * 6 + 1] + 4 * inBlock[i * 6 + 2] + 2 * inBlock[i * 6 + 3] + inBlock[i * 6 + 4];
+		row = 2 * inputBlock[6 * i] + inputBlock[6 * i + 5];
+		col = 8 * inputBlock[6 * i + 1] + 4 * inputBlock[6 * i + 2] + 2 * inputBlock[6 * i + 3] + inputBlock[6 * i + 4];
 		value = SubstituteTable[i][row][col];
-		outBlock[i * 4] = value / 8;
-		value = value % 8;
-		outBlock[i * 4 + 1] = value / 4;
-		value = value % 4;
-		outBlock[i * 4 + 2] = value / 2;
-		value = value % 2;
-		outBlock[i * 4 + 3] = value;
+		for(j = 3; j >= 0; j--) {  // 將 10 進位的值轉成 2 進位，且每個區塊都倒著放入陣列中  
+			outputBlock[4 * i + j] = value % 2;
+			value /= 2;
+		}
 	}
 	
 //	// Test 
@@ -401,8 +403,9 @@ void substitue(_Bool *inBlock, _Bool *outBlock, int SubstituteTable[8][4][16]) {
 //		if(i != 0 && i % 4 == 0) {
 //			printf(" ");
 //		}
-//		printf("%d", outBlock[i]);
+//		printf("%d", outputBlock[i]);
 //	}
+//	printf("\n");
 
 }
 

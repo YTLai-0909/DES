@@ -11,7 +11,7 @@ void mixer(_Bool *leftBlock, _Bool *rightBlock, _Bool *roundKey);
 void copy(int len, _Bool *input, _Bool *output);
 void function(_Bool *inBlock, _Bool *roundKey, _Bool *outBlock);
 void exclusiveOr(int len, _Bool *inputA, _Bool *inputB, _Bool *output);
-void substitue(_Bool *inBlock, _Bool *outBlock, int SubstituteTable[8][4][16]);
+void substitue(_Bool *inputBlock, _Bool *outputBlock);
 void swapper(_Bool *leftBlock, _Bool *rightBlock, _Bool **splitBlock);
 void BinaryToHexadecimal(int len, _Bool *input, char* output);
 void writeFile(char *name, char *data, int num);
