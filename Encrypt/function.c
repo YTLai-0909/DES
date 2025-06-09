@@ -250,12 +250,8 @@ void Encrypt(_Bool *plainBlock, _Bool roundKeys[16][48], _Bool *cipherBlock) {
 	
 	_Bool inBlock[64] = {0};
 	_Bool leftBlock[32] = {0}, rightBlock[32] = {0};
-	_Bool *splitBlock[2];
 	_Bool outBlock[64] = {0};
 	int i;
-	
-	splitBlock[0] = leftBlock;
-	splitBlock[1] = rightBlock;
 	
 	// 初始排列  
 	permute(64, 64, plainBlock, inBlock, InitialPermutationTable);
@@ -267,7 +263,7 @@ void Encrypt(_Bool *plainBlock, _Bool roundKeys[16][48], _Bool *cipherBlock) {
 	for(i = 0; i < 16; i++){
 		mixer(leftBlock, rightBlock, roundKeys[i]);
 		if(i != 15) {  // 最後一回合不做交換器  
-			swapper(leftBlock, rightBlock, splitBlock);
+			swapper(leftBlock, rightBlock);
 		}
 	}
 	
@@ -436,19 +432,19 @@ void substitue(_Bool *inputBlock, _Bool *outputBlock) {
 /* 交換器 
 	leftBlock : 左邊區塊 
 	rightBlock : 右邊區塊 
-	splitBlock : 用來存左邊區塊和右邊區塊的指標陣列 ( 函式一次回傳兩個數值 ) 
-	回傳 : splitBlock 
+	回傳 : leftBlock, rightBlock 
 */
-void swapper(_Bool *leftBlock, _Bool *rightBlock, _Bool **splitBlock) {
+void swapper(_Bool *leftBlock, _Bool *rightBlock) {
 	
-	_Bool T[32] = {0};
+	/*
+		tmp : 做交換時用來當暫存用  
+	*/
 	
-	copy(32, leftBlock, T);
+	_Bool tmp[32] = {0};
+	
+	copy(32, leftBlock, tmp);
 	copy(32, rightBlock, leftBlock);
-	copy(32, T, rightBlock);
-	
-	splitBlock[0] = leftBlock;
-	splitBlock[1] = rightBlock;
+	copy(32, tmp, rightBlock);
 	
 //	// Test 
 //	int i;
