@@ -287,15 +287,27 @@ void Encrypt(_Bool *plainBlock, _Bool roundKeys[16][48], _Bool *cipherBlock) {
 */
 void mixer(_Bool *leftBlock, _Bool *rightBlock, _Bool *roundKey) {
 	
-	_Bool T1[32] = {0};
-	_Bool T2[32] = {0};
-	_Bool T3[32] = {0};
+	/*
+		tmp1 : 暫存右邊區塊的內容  
+		tmp2 : 暫存做完 DES 函數的結果  
+		tmp3 : 暫存做完 XOR 運算的結果  
+	*/
 	
-	copy(32, rightBlock, T1);
-	function(T1, roundKey, T2);
-	exclusiveOr(32, leftBlock, T2, T3);
-	copy(32, T3, leftBlock);
-
+	_Bool tmp1[32] = {0};
+	_Bool tmp2[32] = {0};
+	_Bool tmp3[32] = {0};
+	
+	// 複製右邊區塊的內容  
+	copy(32, rightBlock, tmp1);
+	
+	// DES 函數  
+	function(tmp1, roundKey, tmp2);
+	
+	// XOR 運算  
+	exclusiveOr(32, leftBlock, tmp2, tmp3);
+	
+	// 將 mixer 的結果複製到左邊區塊  
+	copy(32, tmp3, leftBlock);
 }
 
 /* 複製內容函式 
