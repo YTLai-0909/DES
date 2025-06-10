@@ -248,31 +248,39 @@ void combine(int inputBitNum, int outputBitNum, _Bool *leftBlock, _Bool *rightBl
 */
 void Encrypt(_Bool *plainBlock, _Bool roundKeys[16][48], _Bool *cipherBlock) {
 	
-	_Bool inBlock[64] = {0};
+	/*
+		tmpPlainBlock : 暫存做完初始排列的結果  
+		leftBlock : 分裂後的左邊區塊  
+		rightBlock : 分裂後的右邊區塊  
+		tmpCipherBlock : 暫存左右區塊結合後還沒做最終排列的結果  
+	*/
+	
+	_Bool tmpPlainBlock[64] = {0};
 	_Bool leftBlock[32] = {0}, rightBlock[32] = {0};
-	_Bool outBlock[64] = {0};
+	_Bool tmpCipherBlock[64] = {0};
 	int i;
 	
 	// 初始排列  
-	permute(64, 64, plainBlock, inBlock, InitialPermutationTable);
+	permute(64, 64, plainBlock, tmpPlainBlock, InitialPermutationTable);
 	
 	// 分裂 
-	split(64, 32, inBlock, leftBlock, rightBlock);
+	split(64, 32, tmpPlainBlock, leftBlock, rightBlock);
 
 	// DES 加密法，16 個回合  
-	for(i = 0; i < 16; i++){
+	for(i = 0; i < 16; i++) {
+		// 混合器  
 		mixer(leftBlock, rightBlock, roundKeys[i]);
 		if(i != 15) {  // 最後一回合不做交換器  
+			// 交換器  
 			swapper(leftBlock, rightBlock);
 		}
 	}
 	
 	// 結合  
-	combine(32, 64, leftBlock, rightBlock, outBlock);
+	combine(32, 64, leftBlock, rightBlock, tmpCipherBlock);
 	
 	// 最終排列  
-	permute(64, 64, outBlock, cipherBlock, FinalPermutationTable); 
-
+	permute(64, 64, tmpCipherBlock, cipherBlock, FinalPermutationTable);
 }
 
 /* 混合器  
