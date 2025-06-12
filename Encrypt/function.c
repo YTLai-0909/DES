@@ -315,22 +315,22 @@ void mixer(_Bool *leftBlock, _Bool *rightBlock, _Bool *roundKey) {
 }
 
 /* 複製內容函式 
-	 len : input 的長度  
-	 input : 要複製的內容 
-	 output : 存複製的內容 
-	 回傳 : output  
+	inputBitNum : input 的位元數  
+	input : 要複製的內容 
+	output : 存複製的內容 
+	回傳 : output  
 */
-void copy(int len, _Bool *input, _Bool *output) {
+void copy(int inputBitNum, _Bool *input, _Bool *output) {
 	
 	int i;
 	
-	for(i = 0; i < len; i++) {
+	for(i = 0; i < inputBitNum; i++) {
 		output[i] = input[i];
 	}
 	
 //	// Test  
 //	printf("copy:\n");
-//	for(i = 0; i < len; i++) {
+//	for(i = 0; i < inputBitNum; i++) {
 //		if(i != 0 && i % 4 == 0) {
 //			printf(" ");
 //		}
