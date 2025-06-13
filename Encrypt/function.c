@@ -372,23 +372,23 @@ void function(_Bool *inputBlock, _Bool *roundKey, _Bool *outputBlock) {
 }
 
 /* XOR 運算 
-	len : 做 XOR 運算的長度 
+	inputBitNum : input 的位元數  
 	inputA : 做 XOR 運算的陣列 
 	inputB : 做 XOR 運算的陣列  
 	output : 做完 XOR 運算的結果 
 	回傳 : output  
 */ 
-void exclusiveOr(int len, _Bool *inputA, _Bool *inputB, _Bool *output) {
+void exclusiveOr(int inputBitNum, _Bool *inputA, _Bool *inputB, _Bool *output) {
 	
 	int i;
 	
-	for(i = 0; i < len; i++) {
+	for(i = 0; i < inputBitNum; i++) {
 		output[i] = inputA[i] ^ inputB[i];
 	}
 	
 //	// Test 
 //	printf("exclusiveOr:\n");
-//	for(i = 0; i < len; i++) {
+//	for(i = 0; i < inputBitNum; i++) {
 //		if(i != 0 && i % 4 == 0) {
 //			printf(" ");
 //		}
