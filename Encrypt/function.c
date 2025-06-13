@@ -476,17 +476,22 @@ void swapper(_Bool *leftBlock, _Bool *rightBlock) {
 }
 
 /* 2 進位轉 16 進位 
-	len : input 的長度 
+	inputBitNum : input 的位元數  
 	input : 2 進位的值  
 	output : 轉成 16 進位的字串 
 	回傳 : output  
 */
-void BinaryToHexadecimal(int len, _Bool *input, char* output) {
+void BinaryToHexadecimal(int inputBitNum, _Bool *input, char *output) {
 	
-	int value = 0;
+	/*
+		len : 2 進位轉成 16 進位後的字串長度 
+		value : 2 進位轉成 10 進位的值  
+	*/
+	
+	int len = 0, value = 0;
 	int i;
 	
-	len = len / 4;  // 2 進位的 4 個 bit = 16 進位的 1 個 bit，所以 len / 4   
+	len = inputBitNum / 4;  // 2 進位的 4 個 bit = 16 進位的 1 個 bit，所以 inputBitNum / 4   
 	
 	for(i = 0; i < len; i++) {
 		// 2 進位 -> 10 進位  

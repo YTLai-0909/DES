@@ -13,5 +13,5 @@ void function(_Bool *inputBlock, _Bool *roundKey, _Bool *outputBlock);
 void exclusiveOr(int inputBitNum, _Bool *inputA, _Bool *inputB, _Bool *output);
 void substitue(_Bool *inputBlock, _Bool *outputBlock);
 void swapper(_Bool *leftBlock, _Bool *rightBlock);
-void BinaryToHexadecimal(int len, _Bool *input, char* output);
+void BinaryToHexadecimal(int inputBitNum, _Bool *input, char *output);
 void writeFile(char *name, char *data, int num);
