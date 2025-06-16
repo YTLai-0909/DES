@@ -5,13 +5,13 @@
 #include "table.h"
 
 
-/* 開檔 
-    name : 檔案名稱 
+/* 讀檔 
+	name : 檔案名稱 
 	data : 讀取的資料 
 	num : 讀取的是第幾筆資料  
 	回傳 : data  
 */ 
-void openFile(char *name, char *data, int num) {
+void readFile(char *name, char *data, int num) {
 	
 	FILE *rptr = fopen(name, "rb");  // 以位元組( Byte )為單位處理檔案 
 	
@@ -23,7 +23,7 @@ void openFile(char *name, char *data, int num) {
 		fgets(data, 17, rptr);  // 因為會自動補上 '\0'，所以讀取的字元長度要放 17 ( 16 個字元 + 1 個 '\0' )
 	}
 	
-//	printf("openFile = %s\n", data);
+//	printf("readFile = %s\n", data);
 	
 	fclose(rptr);
 }
