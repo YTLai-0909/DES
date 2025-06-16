@@ -35,7 +35,7 @@ int main(void) {
 		char outputKey[17] = {'\0'};
 	
 		// 讀取金鑰 
-		openFile("key.txt", inputKey, i);
+		readFile("key.txt", inputKey, i);
 		
 		// 16 進位轉 2 進位 
 		HexadecimalToBinary(inputKey, key);
@@ -67,7 +67,7 @@ int main(void) {
 		char outputCipherText[17] = {'\0'}; 
 		
 		// 讀取明文 
-		openFile("input.txt", inputPlainText, i);
+		readFile("input.txt", inputPlainText, i);
 		
 		// 16 進位轉 2 進位  
 		HexadecimalToBinary(inputPlainText, plainText);
