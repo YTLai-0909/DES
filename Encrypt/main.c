@@ -9,7 +9,7 @@ int main(void) {
 		num : 記錄總共有幾筆資料  
 	*/ 
 	int num = 0; 
-	int i, j;
+	int i;
 	
 	// 輸入資料數  
 	printf("Input number of data : ");
@@ -27,12 +27,10 @@ int main(void) {
 			inputKey : 存讀取的金鑰內容( 字元形式 )
 			key : 金鑰( 位元形式 )
 			roundKeys : 回合金鑰( 位元形式 )
-			outputKey : 存回合金鑰的內容( 字元形式 )
 		*/ 
 		char inputKey[17] = {'\0'};
 		_Bool key[64] = {0};
 		_Bool roundKeys[16][48] = {0};
-		char outputKey[17] = {'\0'};
 	
 		// 讀取金鑰 
 		readFile("key.txt", inputKey, i);
@@ -43,15 +41,8 @@ int main(void) {
 		// 產生回合金鑰  
 		keyGenerator(key, roundKeys);
 		
-		// 印出回合金鑰  
-		printf("RoundKey\n");
-		for(j = 0; j < 16; j++) {
-			// 2 進位轉 16 進位 
-			BinaryToHexadecimal(48, roundKeys[j], outputKey);
-			printf("%s\n", outputKey);
-		}
-		
-		printf("Key Generator Complete.\n\n");
+		// 印出回合金鑰已產生的訊息  
+		printf("Success: Round key generated.\n\n");
 		
 	/*---------------------------------------------------------------------------*/
 	
@@ -78,13 +69,11 @@ int main(void) {
 		// 2 進位轉 16 進位 
 		BinaryToHexadecimal(64, cipherText, outputCipherText);
 		
-		// 印出加密結果 
-		printf("Encrypt = %s\n", outputCipherText);
-		
 		// 將密文寫入結果檔中 
 		writeFile("output.txt", outputCipherText, i);
 		
-		printf("Encrypt Complete.\n\n");
+		// 印出加密完成的訊息  
+		printf("Success: Encryption completed.\n\n");
 		
 	/*---------------------------------------------------------------------------*/
 		

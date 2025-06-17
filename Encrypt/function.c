@@ -16,9 +16,10 @@ void readFile(char *name, char *data, int num) {
 	FILE *rptr = fopen(name, "rb");  // 以位元組( Byte )為單位處理檔案 
 	
 	if(rptr == NULL) {
-		printf("Open file failed.\n");
+		printf("Read %s failed.\n\n", name);
 		exit(EXIT_FAILURE);  // 結束程式  
 	} else {
+		printf("Read %s success.\n\n", name);
 		fseek(rptr, 18 * num, SEEK_CUR);  // 下一行資料的開頭是 18 的倍數，因為一行資料有 17 個字元( 18 Bytes = 16 個字母( 16 Bytes ) + 1 個換行( 2 Bytes, \n = \r\n ) ) 
 		fgets(data, 17, rptr);  // 因為會自動補上 '\0'，所以讀取的字元長度要放 17 ( 16 個字元 + 1 個 '\0' )
 	}
@@ -523,9 +524,10 @@ void writeFile(char *name, char *data, int num) {
 	FILE *wptr = fopen(name, "a");
 	
 	if(wptr == NULL) {
-		printf("Open file failed.\n");
+		printf("Write %s failed.\n\n", name);
 		exit(EXIT_FAILURE);  // 結束程式  
 	} else {
+		printf("Write %s success.\n\n", name);
 		fprintf(wptr, "%d. %s\n", num + 1, data);  // +1 : 因為陣列的第一個位置 index = 0  
 	}
 	fclose(wptr);
