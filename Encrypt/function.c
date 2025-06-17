@@ -17,6 +17,7 @@ void readFile(char *name, char *data, int num) {
 	
 	if(rptr == NULL) {
 		printf("Read %s failed.\n\n", name);
+		system("pause");  // 讓小黑框不會因為程式結束就消失 
 		exit(EXIT_FAILURE);  // 結束程式  
 	} else {
 		printf("Read %s success.\n\n", name);
@@ -525,6 +526,7 @@ void writeFile(char *name, char *data, int num) {
 	
 	if(wptr == NULL) {
 		printf("Write %s failed.\n\n", name);
+		system("pause");  // 讓小黑框不會因為程式結束就消失 
 		exit(EXIT_FAILURE);  // 結束程式  
 	} else {
 		printf("Write %s success.\n\n", name);
