@@ -25,8 +25,6 @@ void readFile(char *name, char *data, int num) {
 		fgets(data, 17, rptr);  // 因為會自動補上 '\0'，所以讀取的字元長度要放 17 ( 16 個字元 + 1 個 '\0' )
 	}
 	
-//	printf("readFile = %s\n", data);
-	
 	fclose(rptr);
 }
 
@@ -59,17 +57,6 @@ void HexadecimalToBinary(char *input, _Bool *output) {
 			value /= 2;
 		}
 	}
-	
-//	// Test
-//	printf("HexadecimalToBinary:\n");
-//	for(i = 0; i < len * 4; i++) {
-//		if(i != 0 && i % 4 == 0) {
-//			printf(" ");
-//		}
-//		printf("%d", output[i]);
-//	}
-//	printf("\n");
-
 }
 
 /* 回合金鑰產生器  
@@ -124,17 +111,6 @@ void permute(int inputBitNum, int outputBitNum, _Bool *inputBlock, _Bool *output
 	for(i = 0; i < outputBitNum; i++) {
 		outputBlock[i] = inputBlock[table[i] - 1];  // table[i] - 1 : 因為陣列從 0 開始，但 table 從 1 開始記錄  
 	}
-	
-//	// Test
-//	printf("permute:\n");
-//	for(i = 0; i < outputBitNum; i++) {
-//		if(i != 0 && i % 4 == 0) {
-//			printf(" ");
-//		}
-//		printf("%d", outputBlock[i]);
-//	}
-//	printf("\n");
-	
 }
 
 /* 分裂 
@@ -156,24 +132,6 @@ void split(int inputBitNum, int outputBitNum, _Bool *inputBlock, _Bool *leftBloc
 			rightBlock[i - outputBitNum] = inputBlock[i];  // 分裂後，inputBlock 的中間位元( = outputBitNum )變成 rightBlock 的第 0 位元  
 		}
 	}
-	
-//	// Test 
-//	printf("split:\n");
-//	for(i = 0; i < outputBitNum; i++) {
-//		if(i != 0 && i % 4 == 0) {
-//			printf(" ");
-//		}
-//		printf("%d", leftBlock[i]);
-//	}
-//	printf("\n");
-//	for(i = 0; i < outputBitNum; i++) {
-//		if(i != 0 && i % 4 == 0) {
-//			printf(" ");
-//		}
-//		printf("%d", rightBlock[i]);
-//	}
-//	printf("\n");
-	
 }
 
 /* 左位移 
@@ -197,17 +155,6 @@ void shiftLeft(_Bool *block, int numOfShifts) {
 		}
 		block[27] = tmp;  // 將第 0 個位置的值放到陣列的尾端  
 	}
-	
-//	// Test 
-//	printf("shiftLeft:\n");
-//	for(i = 0; i < 28; i++) {
-//		if(i != 0 && i % 4 == 0) {
-//			printf(" ");
-//		}
-//		printf("%d", block[i]);
-//	}
-//	printf("\n");
-
 }
 
 /* 結合  
@@ -229,17 +176,6 @@ void combine(int inputBitNum, int outputBitNum, _Bool *leftBlock, _Bool *rightBl
 			outputBlock[i] = rightBlock[i - inputBitNum];  // 結合後，outputBlock 的中間位元( = inputBitNum )放得是 rightBlock 的第 0 位元  
 		}
 	}
-	
-//	// Test 
-//	printf("combine:\n");
-//	for(i = 0; i < outputBitNum; i++) {
-//		if(i != 0 && i % 4 == 0) {
-//			printf(" ");
-//		}
-//		printf("%d", outputBlock[i]);
-//	}
-//	printf("\n");
-
 }
 
 /* DES 加密法 
@@ -329,17 +265,6 @@ void copy(int inputBitNum, _Bool *input, _Bool *output) {
 	for(i = 0; i < inputBitNum; i++) {
 		output[i] = input[i];
 	}
-	
-//	// Test  
-//	printf("copy:\n");
-//	for(i = 0; i < inputBitNum; i++) {
-//		if(i != 0 && i % 4 == 0) {
-//			printf(" ");
-//		}
-//		printf("%d", output[i]);
-//	}
-//	printf("\n");
-
 }
 
 /* DES 函數 
@@ -387,17 +312,6 @@ void exclusiveOr(int inputBitNum, _Bool *inputA, _Bool *inputB, _Bool *output) {
 	for(i = 0; i < inputBitNum; i++) {
 		output[i] = inputA[i] ^ inputB[i];
 	}
-	
-//	// Test 
-//	printf("exclusiveOr:\n");
-//	for(i = 0; i < inputBitNum; i++) {
-//		if(i != 0 && i % 4 == 0) {
-//			printf(" ");
-//		}
-//		printf("%d", output[i]);
-//	}
-//	printf("\n");
-
 }
 
 /* S-box 
@@ -426,17 +340,6 @@ void substitue(_Bool *inputBlock, _Bool *outputBlock) {
 			value /= 2;
 		}
 	}
-	
-//	// Test 
-//	printf("substitue:\n");
-//	for(i = 0; i < 32; i++) {
-//		if(i != 0 && i % 4 == 0) {
-//			printf(" ");
-//		}
-//		printf("%d", outputBlock[i]);
-//	}
-//	printf("\n");
-
 }
 
 /* 交換器 
@@ -455,26 +358,6 @@ void swapper(_Bool *leftBlock, _Bool *rightBlock) {
 	copy(32, leftBlock, tmp);
 	copy(32, rightBlock, leftBlock);
 	copy(32, tmp, rightBlock);
-	
-//	// Test 
-//	int i;
-//	printf("left:\n");
-//	for(i = 0; i < 32; i++) {
-//		if(i != 0 && i % 4 == 0) {
-//			printf(" ");
-//		}
-//		printf("%d", leftBlock[i]);
-//	}
-//	printf("\n");
-//	printf("right:\n");
-//	for(i = 0; i < 32; i++) {
-//		if(i != 0 && i % 4 == 0) {
-//			printf(" ");
-//		}
-//		printf("%d", rightBlock[i]);
-//	}
-//	printf("\n");
-
 }
 
 /* 2 進位轉 16 進位 
@@ -505,14 +388,6 @@ void BinaryToHexadecimal(int inputBitNum, _Bool *input, char *output) {
 			output[i] = value + 55;
 		}		
 	}
-	
-//	// Test 
-//	printf("BinaryToHexadecimal:\n");
-//	for(i = 0; i < len; i++) {
-//		printf("%c", output[i]);
-//	}
-//	printf("\n");
-
 }
 
 /* 寫檔 
@@ -532,5 +407,6 @@ void writeFile(char *name, char *data, int num) {
 		printf("Write %s success.\n\n", name);
 		fprintf(wptr, "%d. %s\n", num + 1, data);  // +1 : 因為陣列的第一個位置 index = 0  
 	}
+	
 	fclose(wptr);
 }
