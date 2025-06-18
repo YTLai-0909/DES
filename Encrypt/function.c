@@ -17,7 +17,7 @@ void readFile(char *name, char *data, int num) {
 	
 	if(rptr == NULL) {
 		printf("Read %s failed.\n\n", name);
-		system("pause");  // 讓小黑框不會因為程式結束就消失 
+		system("pause");  // 程式結束前會先暫停，讓小黑框不會直接消失 
 		exit(EXIT_FAILURE);  // 結束程式  
 	} else {
 		printf("Read %s success.\n\n", name);
@@ -52,7 +52,7 @@ void HexadecimalToBinary(char *input, _Bool *output) {
 			value = input[i] - 55;
 		}
 		// 10 進位 -> 2 進位  
-		for(j = 3; j >= 0; j--) {
+		for(j = 3; j >= 0; j--) {  // 每個區塊都倒著放入陣列中 
 			output[4 * i + j] = value % 2;
 			value /= 2;
 		}
@@ -332,10 +332,14 @@ void substitue(_Bool *inputBlock, _Bool *outputBlock) {
 	int i, j;
 	
 	for(i = 0; i < 8; i++) {
+		// 計算 SubstituteTable 的列的值 
 		row = 2 * inputBlock[6 * i] + inputBlock[6 * i + 5];
+		// 計算 SubstituteTable 的行的值 
 		col = 8 * inputBlock[6 * i + 1] + 4 * inputBlock[6 * i + 2] + 2 * inputBlock[6 * i + 3] + inputBlock[6 * i + 4];
+		// 取得 SubstituteTable 對應的值 
 		value = SubstituteTable[i][row][col];
-		for(j = 3; j >= 0; j--) {  // 將 10 進位的值轉成 2 進位，且每個區塊都倒著放入陣列中  
+		// 10 進位 -> 2 進位 
+		for(j = 3; j >= 0; j--) {  // 每個區塊都倒著放入陣列中 
 			outputBlock[4 * i + j] = value % 2;
 			value /= 2;
 		}
@@ -401,7 +405,7 @@ void writeFile(char *name, char *data, int num) {
 	
 	if(wptr == NULL) {
 		printf("Write %s failed.\n\n", name);
-		system("pause");  // 讓小黑框不會因為程式結束就消失 
+		system("pause");  // 程式結束前會先暫停，讓小黑框不會直接消失 
 		exit(EXIT_FAILURE);  // 結束程式  
 	} else {
 		printf("Write %s success.\n\n", name);
