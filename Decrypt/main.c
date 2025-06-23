@@ -46,34 +46,6 @@ int main(void) {
         
     /*---------------------------------------------------------------------------*/
     
-        /* DES 加密法( Encrypt ) 
-            inputPlainText : 存讀取的明文內容( 字元形式 )
-            plainText : 明文( 位元形式 )
-            cipherText : 密文( 位元形式 )
-            outputCipherText : 存密文的內容( 字元形式 ) 
-        */ 
-        char inputPlainText[17] = {'\0'};
-        _Bool plainText[64] = {0};
-        _Bool cipherText[64] = {0};
-        char outputCipherText[17] = {'\0'}; 
-        
-        // 讀取明文 
-        readFile("input.txt", inputPlainText, i);
-        
-        // 16 進位轉 2 進位  
-        HexadecimalToBinary(inputPlainText, plainText);
-        
-        // DES 加密  
-        Encrypt(plainText, roundKeys, cipherText);
-        
-        // 2 進位轉 16 進位 
-        BinaryToHexadecimal(64, cipherText, outputCipherText);
-        
-        // 將密文寫入結果檔中 
-        writeFile("output.txt", outputCipherText, i);
-        
-        // 印出加密完成的訊息  
-        printf("Success: Encryption completed.\n\n");
         
     /*---------------------------------------------------------------------------*/
         
