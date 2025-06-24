@@ -23,6 +23,7 @@ int main(void) {
         printf("Data %d :\n", i + 1);
         
     /*---------------------------------------------------------------------------*/
+        
         /* 回合金鑰產生器 
             inputKey : 存讀取的金鑰內容( 字元形式 )
             key : 金鑰( 位元形式 )
@@ -45,7 +46,35 @@ int main(void) {
         printf("Success: Round key generated.\n\n");
         
     /*---------------------------------------------------------------------------*/
-    
+        
+        /* DES 解密法( Decrypt ) 
+            inputCipherText : 存讀取的密文內容( 字元形式 ) 
+            cipherText : 密文( 位元形式 ) 
+            plainText : 明文( 位元形式 ) 
+            outputPlainText : 存明文的內容( 字元形式 ) 
+        */
+        char inputCipherText[17] = {'\0'};
+        _Bool cipherText[64] = {0};
+        _Bool plainText[64] = {0};
+        char outputPlainText[17] = {'\0'};
+        
+        // 讀取密文 
+        readFile("input.txt", inputCipherText, i);
+        
+        // 16 進位轉 2 進位 
+        HexadecimalToBinary(inputCipherText, cipherText);
+        
+        // DES 解密 
+        Decrypt(cipherText, roundKeys, plainText);
+        
+        // 2 進位轉 16 進位 
+        BinaryToHexadecimal(64, plainText, outputPlainText);
+        
+        // 將明文寫入結果檔中 
+        writeFile("output.txt", outputPlainText, i);
+        
+        // 印出解密完成的訊息 
+        printf("Success: Decryption completed.\n\n");
         
     /*---------------------------------------------------------------------------*/
         
